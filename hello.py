@@ -8,8 +8,8 @@ import requests
 import urllib
 
 # Twilio configuration.
-TWILIO_ACCOUNT_SID = "AC52a3d465bd5577c994ebad881c1ac48a"
-TWILIO_AUTH_TOKEN = "5fdc4c5e212bd4e3301211631ad5e729"
+TWILIO_ACCOUNT_SID = "ACbd6fbaccd6b0b257cbfabff29300c9be"
+TWILIO_AUTH_TOKEN = "7ae2c137c0a76bb8846c801b793ec5aa"
 TWILIO_NUMBER = "+14152148445"
 WALMART_KEY = "zyaws883qm53fwt9ty36f8u6"
 
