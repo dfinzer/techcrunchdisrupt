@@ -43,6 +43,7 @@ def receive_message():
         return
 
     if body == "help":
+        client.sms.messages.create(to="+14157066803", from_=TWILIO_NUMBER, body="Someone needs help! We're connecting you to them.")
         return
 
     return_message = find_location_in_store(5457, body)
