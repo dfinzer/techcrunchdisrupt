@@ -10,6 +10,7 @@ import urllib
 # Twilio configuration.
 TWILIO_ACCOUNT_SID = "AC52a3d465bd5577c994ebad881c1ac48a"
 TWILIO_AUTH_TOKEN = "5fdc4c5e212bd4e3301211631ad5e729"
+TWILIO_NUMBER = "+14152148445"
 WALMART_KEY = "zyaws883qm53fwt9ty36f8u6"
 
 client = TwilioRestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
@@ -28,11 +29,11 @@ def send_message():
 
     return "yo"
 
-@app.route("/api/message", methods=['POST'])
+@app.route("/receive_message", methods=['POST'])
 def receive_message():
     phone_number = request.values.get("From")
     body = request.values.get("Body").strip()
-    print ""
+    client.sms.messages.create(to="9253896343",from_=TWILIO_NUMBER, body=body)
 
 def find_store():
     base_url = "http://api.walmartlabs.com/v1/stores"
