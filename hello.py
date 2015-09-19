@@ -25,15 +25,14 @@ def index():
 def send_message():
     #client.sms.messages.create(to=toNumber, from_=twilioNumber["number"], body=body)
     #find_store()
-    find_location_in_store(5457, 'candy')
-
-    return "yo"
+    return find_location_in_store(5457, 'candy')
 
 @app.route("/receive_message", methods=['POST'])
 def receive_message():
     phone_number = request.values.get("From")
     body = request.values.get("Body").strip()
-    client.sms.messages.create(to="9253896343",from_=TWILIO_NUMBER, body=body)
+    return_message = find_location_in_store(5457, body)
+    client.sms.messages.create(to="9253896343", from_=TWILIO_NUMBER, body=return_message)
 
 def find_store():
     base_url = "http://api.walmartlabs.com/v1/stores"
@@ -51,12 +50,20 @@ def find_location_in_store(store_id, query):
         'offset': 0,
         'size': 20
     }
-    return make_request(base_url, payload)
+    results = make_request(base_url, payload)
+    result = results[0]
+    location = result['location']
+    aisles = location['aisle']
+
+    aisles_string = ", ".join(map(lambda x: "Aisle %s" % x, aisles))
+    return ("%s can be found in %s" % (query, aisles_string)).capitalize()
+
 
 def make_request(base_url, payload):
     url = "%s?%s" % (base_url, urllib.urlencode(payload))
     resp = requests.get(url)
     json = resp.json()
+    print json
     if 'results' in json:
         return json['results']
 
