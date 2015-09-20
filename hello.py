@@ -48,6 +48,10 @@ def receive_message():
 
     return_message = find_location_in_store(5457, body)
     client.sms.messages.create(to=phone_number, from_=TWILIO_NUMBER, body=return_message)
+
+    if phone_number == "+19253896343":
+        client.sms.messages.create(to=phone_number, from_=TWILIO_NUMBER, body="Here's a map of the exact location. http://bit.ly/1PefFnw")
+
     client.sms.messages.create(to=phone_number, from_=TWILIO_NUMBER, body="Thank you for shopping at Walmart. Download the Walmart app to find and buy quality products at unbeatable prices. http://apple.co/1p1XKCt")
 
 def find_store():
