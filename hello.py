@@ -48,6 +48,7 @@ def receive_message():
 
     return_message = find_location_in_store(5457, body)
     client.sms.messages.create(to=phone_number, from_=TWILIO_NUMBER, body=return_message)
+    client.sms.messages.create(to=phone_number, from_=TWILIO_NUMBER, body="Thank you for shopping at Walmart. Download the Walmart app to find and buy quality products at unbeatable prices. http://apple.co/1p1XKCt")
 
 def find_store():
     base_url = "http://api.walmartlabs.com/v1/stores"
@@ -56,6 +57,15 @@ def find_store():
         'city': "San Francisco"
     }
     return make_request(base_url, payload)
+
+def find_recommendations(item_id):
+    base_url = "http://api.walmartlabs.com/v1/nbp"
+    payload = {
+        'apiKey': WALMART_KEY,
+        'itemId': item_id
+    }
+    recommendation = make_request(base_url, payload)[0]
+    return recommendation['name']
 
 def find_location_in_store(store_id, query):
     base_url = "http://search.mobile.walmart.com/search"
@@ -79,6 +89,8 @@ def find_location_in_store(store_id, query):
                 str += ". It's in stock."
             else:
                 str += ", but it's not in stock."
+
+            item_id = result['productId']['storeItemId']
             return str
     return "Hmm we couldn't find %s. Try searching for something else." % query
 
