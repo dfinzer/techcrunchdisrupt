@@ -66,18 +66,20 @@ def find_location_in_store(store_id, query):
         'size': 20
     }
     results = make_request(base_url, payload)
-    result = results[0]
-    location = result['location']
-    aisles = location['aisle']
-    in_stock = result.get('inventory').get('status') == "In Stock"
+    for result in results:
+        location = result['location']
+        aisles = location['aisle']
+        if aisles:
+            in_stock = result.get('inventory').get('status') == "In Stock"
 
-    aisles_string = ", ".join(map(lambda x: "Aisle %s" % x, aisles))
-    str = ("%s can be found in %s" % (query, aisles_string)).capitalize()
-    if in_stock:
-        str += ". It's in stock."
-    else:
-        str += ", but it's not in stock."
-    return str
+            aisles_string = ", ".join(map(lambda x: "Aisle %s" % x, aisles))
+            str = ("%s can be found in %s" % (query, aisles_string)).capitalize()
+            if in_stock:
+                str += ". It's in stock."
+            else:
+                str += ", but it's not in stock."
+            return str
+    return "Hmm we couldn't find %s. Try searching for something else." % query
 
 def make_request(base_url, payload):
     url = "%s?%s" % (base_url, urllib.urlencode(payload))
