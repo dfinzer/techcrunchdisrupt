@@ -13,7 +13,7 @@ TWILIO_AUTH_TOKEN = "7ae2c137c0a76bb8846c801b793ec5aa"
 TWILIO_NUMBER = "+14152148445"
 WALMART_KEY = "zyaws883qm53fwt9ty36f8u6"
 INTRO_TEXT = ("Welcome to Walmart. Please text the name of the product you are looking for and we will tell you where to "
-              "find it in this store. Please text 'help' to be connected to a walmart associate who can assist you.")
+              "find it in this store. Please text 'chat' to be connected to a walmart associate who can assist you.")
 
 client = TwilioRestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
@@ -42,7 +42,7 @@ def receive_message():
         client.sms.messages.create(to=phone_number, from_=TWILIO_NUMBER, body=INTRO_TEXT)
         return
 
-    if body == "help":
+    if body == "chat" or body == "Chat":
         client.sms.messages.create(to="+14157066803", from_=TWILIO_NUMBER, body="Someone needs help! We're connecting you to them.")
         return
 
