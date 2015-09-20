@@ -12,8 +12,8 @@ TWILIO_ACCOUNT_SID = "ACbd6fbaccd6b0b257cbfabff29300c9be"
 TWILIO_AUTH_TOKEN = "7ae2c137c0a76bb8846c801b793ec5aa"
 TWILIO_NUMBER = "+14152148445"
 WALMART_KEY = "zyaws883qm53fwt9ty36f8u6"
-INTRO_TEXT = ("Welcome to Walmart. Please text the name of the product you are looking for and we will tell you where to "
-              "find it in this store. Please text 'chat' to be connected to a walmart associate who can assist you.")
+INTRO_TEXT = ["Welcome to Walmart. Please text the name of the product you are looking for and we will tell you where to ",
+              "find it in this store. Please text 'chat' to be connected to a walmart associate who can assist you."]
 
 client = TwilioRestClient(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
@@ -29,7 +29,7 @@ def send_message():
     #find_store()
     return find_location_in_store(5457, 'candy')
 
-@app.route("/receive_message", methods=['POST'])
+@app.route("/receive_message", methods=['GET'])
 def receive_message():
     phone_number = request.values.get("From")
     body = request.values.get("Body").strip()
@@ -39,7 +39,8 @@ def receive_message():
         return
 
     if body == "Hi" or body == "hi":
-        client.sms.messages.create(to=phone_number, from_=TWILIO_NUMBER, body=INTRO_TEXT)
+        for text in INTRO_TEXT:
+            client.sms.messages.create(to=phone_number, from_=TWILIO_NUMBER, body=text)
         return
 
     if body == "chat" or body == "Chat":
