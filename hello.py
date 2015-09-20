@@ -69,11 +69,12 @@ def find_location_in_store(store_id, query):
     for result in results:
         location = result['location']
         aisles = location['aisle']
+        name = result['name']
         if aisles:
             in_stock = result.get('inventory').get('status') == "In Stock"
 
             aisles_string = ", ".join(map(lambda x: "Aisle %s" % x, aisles))
-            str = ("%s can be found in %s" % (query, aisles_string)).capitalize()
+            str = ("%s can be found in %s" % (name, aisles_string)).capitalize()
             if in_stock:
                 str += ". It's in stock."
             else:
